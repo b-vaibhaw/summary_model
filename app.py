@@ -24,7 +24,7 @@ st.caption("Summarize, Evaluate, and Study — multi-language, multi-file, and a
 
 # ---------------------- Model ----------------------
 @st.cache_resource
-def load_model():
+def load_model(fast=True):
     if fast:
         model_name = "csebuetnlp/mT5_multilingual_XLSum"  # smaller multilingual model
     else:
@@ -243,4 +243,5 @@ if generate:
 
 st.markdown("---")
 st.caption("🧠 Built by Aditya — Universal AI Summarizer v4 | Hugging Face + Streamlit + Free APIs")
+
 
