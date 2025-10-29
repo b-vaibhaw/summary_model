@@ -25,8 +25,14 @@ st.caption("Summarize, Evaluate, and Study — multi-language, multi-file, and a
 # ---------------------- Model ----------------------
 @st.cache_resource
 def load_model():
-    return pipeline("summarization", model="sshleifer/distilbart-cnn-12-6")
+    if fast:
+        model_name = "csebuetnlp/mT5_multilingual_XLSum"  # smaller multilingual model
+    else:
+        model_name = "sshleifer/distilbart-cnn-12-6"
+    return pipeline("summarization", model=model_name)
 
+# User-selectable mode
+fast_mode = st.sidebar.checkbox("⚡ Turbo Mode (faster, lighter summaries)", value=True)
 summarizer = load_model()
 translator = Translator()
 
@@ -237,3 +243,4 @@ if generate:
 
 st.markdown("---")
 st.caption("🧠 Built by Aditya — Universal AI Summarizer v4 | Hugging Face + Streamlit + Free APIs")
+
