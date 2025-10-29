@@ -4,3 +4,6 @@ torch
 requests
 beautifulsoup4
 sumy
+PyPDF2
+python-docx
+reportlab
