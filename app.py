@@ -18,22 +18,24 @@ import textwrap
 import difflib
 
 # ---------------------- Streamlit Setup ----------------------
-st.set_page_config(page_title="Universal AI Summarizer v4", page_icon="🧠", layout="wide")
-st.title("🧠 Universal AI Summarizer — v4 Pro+")
-st.caption("Summarize, Evaluate, and Study — multi-language, multi-file, and all free.")
+st.set_page_config(page_title="Universal AI Summarizer v4.1 Turbo", page_icon="🧠", layout="wide")
+st.title("🧠 Universal AI Summarizer — v4.1 Turbo Edition")
+st.caption("Summarize, Evaluate, and Study — multi-language, multi-file, and fully free ⚡")
 
 # ---------------------- Model ----------------------
 @st.cache_resource
 def load_model(fast=True):
+    """Load summarization model based on speed preference."""
     if fast:
-        model_name = "csebuetnlp/mT5_multilingual_XLSum"  # smaller multilingual model
+        model_name = "csebuetnlp/mT5_multilingual_XLSum"  # smaller, multilingual
     else:
-        model_name = "sshleifer/distilbart-cnn-12-6"
+        model_name = "sshleifer/distilbart-cnn-12-6"  # high-quality
     return pipeline("summarization", model=model_name)
 
-# User-selectable mode
+# Sidebar option for mode
+st.sidebar.header("⚙️ Options")
 fast_mode = st.sidebar.checkbox("⚡ Turbo Mode (faster, lighter summaries)", value=True)
-summarizer = load_model()
+summarizer = load_model(fast_mode)
 translator = Translator()
 
 # ---------------------- Helper Functions ----------------------
@@ -59,26 +61,26 @@ def web_fetch(query):
         pass
     return ""
 
-def summarize_text(text, length="medium"):
+def summarize_text(text, length="medium", fast=True):
+    """Hybrid summarizer: LSA for fast, transformer for deep summarization."""
     if not text.strip():
         return "⚠️ No valid content found."
-    if length == "short":
-        max_len, min_len = 80, 30
-    elif length == "long":
-        max_len, min_len = 250, 100
+
+    if len(text.split()) > 1500 or fast:
+        # Use LSA for fast mode or large inputs
+        parser = PlaintextParser.from_string(text, Tokenizer("english"))
+        summarizer_lsa = Summarizer()
+        sentence_count = {"short": 3, "medium": 5, "long": 8}.get(length, 5)
+        summary_sentences = summarizer_lsa(parser.document, sentence_count)
+        return " ".join([str(s) for s in summary_sentences])
     else:
-        max_len, min_len = 150, 60
-    try:
-        if len(text.split()) > 800:
-            parser = PlaintextParser.from_string(text, Tokenizer("english"))
-            summarizer_lsa = Summarizer()
-            summary_sentences = summarizer_lsa(parser.document, 6)
-            return " ".join([str(s) for s in summary_sentences])
-        else:
+        # Use transformer for detailed summaries
+        max_len, min_len = {"short": (80, 30), "medium": (150, 60), "long": (250, 100)}[length]
+        try:
             result = summarizer(text, max_length=max_len, min_length=min_len, do_sample=False)
             return result[0]["summary_text"]
-    except Exception as e:
-        return f"⚠️ Error generating summary: {e}"
+        except Exception as e:
+            return f"⚠️ Error generating summary: {e}"
 
 def export_pdf(summary):
     buffer = BytesIO()
@@ -137,8 +139,7 @@ def generate_notes(summary):
             qna.append((q, a))
     return qna
 
-# ---------------------- Sidebar ----------------------
-st.sidebar.header("⚙️ Options")
+# ---------------------- Sidebar Extended ----------------------
 summary_size = st.sidebar.radio("Summary Length", ["short", "medium", "long"], index=1)
 fetch_web = st.sidebar.checkbox("🌍 Add Wikipedia context", value=True)
 output_format = st.sidebar.multiselect("📤 Export Formats", ["PDF", "TXT", "DOCX"], default=["TXT"])
@@ -187,23 +188,29 @@ if generate:
         except Exception:
             lang = "en"
 
-        # Fetch Wikipedia
+        # Fetch Wikipedia info
         if fetch_web:
             web_data = web_fetch(content.split(".")[0][:15])
             if web_data:
                 content += "\n\n" + web_data
 
-        # Chunk if long
-        chunks = [content[i:i+2000] for i in range(0, len(content), 2000)]
-        summaries = [summarize_text(chunk, length=summary_size) for chunk in chunks]
-        final_summary = " ".join(summaries)
+        # ⚡ Adaptive Summarization Logic
+        if fast_mode or len(content) < 2500:
+            final_summary = summarize_text(content, length=summary_size, fast=fast_mode)
+        else:
+            chunks = [content[i:i+2000] for i in range(0, len(content), 2000)]
+            summaries = [summarize_text(chunk, length=summary_size, fast=fast_mode) for chunk in chunks]
+            final_summary = " ".join(summaries)
 
         # Translate back if needed
         if lang != "en":
             final_summary = translator.translate(final_summary, src="en", dest=lang).text
 
+        # ---------------------- Output ----------------------
         st.subheader("🪄 AI Summary:")
         st.write(final_summary)
+        st.progress(min(len(final_summary) / len(content), 1.0))
+        st.caption(f"📝 Summary length: {len(final_summary.split())} words")
 
         # ---------------------- Evaluation ----------------------
         if human_summary_input.strip():
@@ -242,6 +249,4 @@ if generate:
                 st.download_button("⬇️ Download as PDF", data=pdf_buf, file_name="summary.pdf", mime="application/pdf")
 
 st.markdown("---")
-st.caption("🧠 Built by Aditya — Universal AI Summarizer v4 | Hugging Face + Streamlit + Free APIs")
-
-
+st.caption("🧠 Built by Aditya — Universal AI Summarizer v4.1 Turbo | Hugging Face + Streamlit + Free APIs")
