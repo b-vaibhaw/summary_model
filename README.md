@@ -2,6 +2,9 @@
 
 ### 🔍 Summarize • Compare • Study — All in One Smart App
 
+![License: Proprietary](https://img.shields.io/badge/license-Proprietary-red)
+![Streamlit](https://img.shields.io/badge/Framework-Streamlit-brightgreen)
+
 A **powerful Streamlit-based AI app** that can summarize *any type of content* — research papers, stories, skits, articles, movie plots, and even multiple documents at once.  
 Built entirely using **free and open-source tools** — no paid APIs, no keys, just pure intelligence on CPU 💻.
 
