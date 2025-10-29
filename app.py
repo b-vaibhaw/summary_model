@@ -1,6 +1,5 @@
 # © 2025 Aditya. All Rights Reserved.
-# Unauthorized copying, modification, or distribution of this software,
-# via any medium, is strictly prohibited. Proprietary and confidential.
+# Unauthorized copying, modification, or distribution of this software, via any medium, is strictly prohibited. Proprietary and confidential.
 # Written by Aditya.
 
 import streamlit as st
@@ -242,4 +241,5 @@ if generate:
 
 st.markdown("---")
 st.caption("🧠 Built by Aditya — Universal AI Summarizer v4 | Hugging Face + Streamlit + Free APIs")
+
 
