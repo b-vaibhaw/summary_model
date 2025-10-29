@@ -42,9 +42,8 @@ Built entirely using **free and open-source tools** — no paid APIs, no keys, j
 
 ---
 
-## ⚙️ Installation
-
-### 1️⃣ Clone the repository
-```bash
-git clone https://github.com/<your-username>/universal-ai-summarizer.git
-cd universal-ai-summarizer
+## All Rights Reserved
+# © 2025 Aditya. All Rights Reserved.
+# Unauthorized copying, modification, or distribution of this software,
+# via any medium, is strictly prohibited. Proprietary and confidential.
+# Written by Aditya.
