@@ -136,10 +136,10 @@ def generate_notes(summary):
     return qna
 
 # ---------------------- Sidebar ----------------------
-st.sidebar.header("⚙️ Options")
+st.sidebar.header("Options")
 summary_size = st.sidebar.radio("Summary Length", ["short", "medium", "long"], index=1)
 fetch_web = st.sidebar.checkbox("Add Wikipedia context", value=True)
-output_format = st.sidebar.multiselect("📤 Export Formats", ["PDF", "TXT", "DOCX"], default=["TXT"])
+output_format = st.sidebar.multiselect("Export Formats", ["PDF", "TXT", "DOCX"], default=["TXT"])
 multi_doc = st.sidebar.checkbox("Multi-document summarization", value=False)
 
 # ---------------------- Input Section ----------------------
@@ -241,6 +241,7 @@ if generate:
 
 st.markdown("---")
 st.caption("Built by Aditya")
+
 
 
 
