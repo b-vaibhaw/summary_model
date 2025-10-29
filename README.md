@@ -8,7 +8,7 @@ Built entirely using **free and open-source tools** — no paid APIs, no keys, j
 ---
 
 ## 🚀 Live Demo
-👉 [Launch on Streamlit Cloud](https://summarymodel.streamlit.app/#universal-ai-summarizer-v4-pro) *(after deployment)*
+👉 [Launch on Streamlit Cloud](https://summarymodel.streamlit.app/#universal-ai-summarizer-v4-pro) *(deployed)*
 
 ---
 
