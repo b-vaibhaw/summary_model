@@ -1,14 +1,11 @@
 streamlit
+transformers
+torch
+requests
+beautifulsoup4
+sumy
 PyPDF2
 python-docx
-sumy
-transformers
---extra-index-url https://download.pytorch.org/whl/cpu
-torch
-googletrans==3.1.0a0
-wikipedia-api
-scikit-learn
-numpy
-fpdf
-nltk
-sentencepiece
+reportlab
+langdetect
+googletrans
