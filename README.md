@@ -42,7 +42,6 @@ Built entirely using **free and open-source tools** — no paid APIs, no keys, j
 
 ---
 
-## All Rights Reserved
-**© 2025 Aditya. All Rights Reserved.**
-**Unauthorized copying, modification, or distribution of this software,via any medium, is strictly prohibited. Proprietary and confidential.**
-**Written by Aditya.**
+---
+### © 2025 Aditya — All Rights Reserved  
+Unauthorized use, reproduction, or modification of this software is prohibited.
