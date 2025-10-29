@@ -8,4 +8,4 @@ PyPDF2
 python-docx
 reportlab
 langdetect
-googletrans==4.0.0-rc1
+googletrans
